@@ -1,4 +1,4 @@
-name: ChatBot CI
+name: Chatbot CI
 
 on:
   push:
@@ -8,9 +8,10 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  rule-bot-tests:
+  chatbot-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,12 +32,33 @@ jobs:
         run: |
           python -m compileall llm_bot rule_bot tests
 
+      - name: Create results folder
+        run: |
+          mkdir -p results
+
       - name: Run rule-based chatbot tests
         run: |
-          python -m tests.pruebas_rule_bot > rule_bot_results.txt
+          python -m tests.pruebas_rule_bot > results/rule_bot_results.txt
 
-      - name: Upload rule bot results
+      - name: Run comparison without LLM service
+        run: |
+          python -m tests.pruebas_rule_bot > results/chatbot_execution_summary.txt
+
+      - name: Create README for artifacts
+        run: |
+          echo "Chatbot Test Results" > results/README_RESULTS.txt
+          echo "====================" >> results/README_RESULTS.txt
+          echo "" >> results/README_RESULTS.txt
+          echo "This artifact contains the execution results generated automatically by GitHub Actions." >> results/README_RESULTS.txt
+          echo "" >> results/README_RESULTS.txt
+          echo "Files included:" >> results/README_RESULTS.txt
+          echo "- rule_bot_results.txt: Output of the rule-based chatbot tests." >> results/README_RESULTS.txt
+          echo "- chatbot_execution_summary.txt: Summary execution generated during CI." >> results/README_RESULTS.txt
+          echo "" >> results/README_RESULTS.txt
+          echo "Note: The LLM chatbot requires Ollama and Llama 3.2 running locally, so it is not executed in this CI workflow." >> results/README_RESULTS.txt
+
+      - name: Upload chatbot results
         uses: actions/upload-artifact@v4
         with:
-          name: rule-bot-results
-          path: rule_bot_results.txt
+          name: chatbot-test-results
+          path: results/
