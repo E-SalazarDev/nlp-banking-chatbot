@@ -1,91 +1,170 @@
-# Chatbot Bancario: Reglas vs LLM
+# Instalación y configuración
 
-Este proyecto implementa y compara dos versiones de un chatbot bancario:
+## Requisitos previos
 
-## Tecnologías utilizadas
+Antes de ejecutar el proyecto es necesario tener instalado:
 
-- Python 3.11
-- Ollama
-- Llama 3.2
-- Requests
-- Jupyter Notebook
-- IPython Kernel
+* Python 3.11 o superior
+* Ollama
+* Modelo Llama 3.2 descargado localmente
 
-## Estructura del proyecto
+Verificar instalación de Python:
 
-```text
-Bot/
-├── llm_bot/
-│   ├── chatbot.py
-│   ├── context_manager.py
-│   └── prompt_builder.py
-│
-├── rule_bot/
-│   ├── chatbot.py
-│   ├── entities.py
-│   ├── intents.py
-│   └── responses.py
-│
-├── tests/
-│   ├── pruebas_rule_bot.py
-│   ├── pruebas_llm_bot.py
-│   └── comparacion_bots.py
-│
-├── notebooks/
-│   └── actividad3_chatbot.ipynb
-│
-├── requirements.txt
-└── README.md 
-
-
-Requisitos previos
-- Python 3.11
-- Ollama 
-
-Verificar Python:
+```bash
 python --version
+```
 
-Verificar Ollama:
-ollama --version 
+Verificar instalación de Ollama:
 
+```bash
+ollama --version
+```
 
-Instalar modelo LLM
-ollama run llama3.2 
+---
 
+## Instalación de Ollama
 
-Crear entorno virtual
-python -m venv .venv 
+Descargar e instalar Ollama desde:
 
-Activar entorno:
-.venv\Scripts\activate 
+https://ollama.com/download
 
+Una vez instalado, descargar el modelo utilizado por el chatbot:
 
-Instalar dependencias
+```bash
+ollama run llama3.2
+```
+
+---
+
+## Clonar el repositorio
+
+```bash
+git clone https://github.com/E-SalazarDev/nlp-banking-chatbot.git
+cd nlp-banking-chatbot
+```
+
+---
+
+## Crear entorno virtual
+
+Windows:
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+Linux / macOS:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+---
+
+## Instalar dependencias
+
+```bash
 pip install -r requirements.txt
+```
 
+---
 
-Registrar kernel para Jupyter
+## Configurar Jupyter Notebook (opcional)
+
+Registrar el kernel del entorno virtual:
+
+```bash
 python -m ipykernel install --user --name bot-venv --display-name "Python (Bot)"
+```
 
 Verificar kernels disponibles:
-jupyter kernelspec list 
 
-Ejecutar chatbot basado en reglas
-python -m tests.pruebas_rule_bot
+```bash
+jupyter kernelspec list
+```
 
-Ejecutar chatbot con LLM
-python -m tests.pruebas_llm_bot
+Abrir Jupyter:
 
-Ejecutar comparación entre ambos sistemas
-python -m tests.comparacion_bots 
-
-
-Ejecutar notebook
-
-Abrir el notebook:
-notebooks/actividad3_chatbot.ipynb 
+```bash
+jupyter notebook
+```
 
 Seleccionar el kernel:
+
+```text
 Python (Bot)
+```
 
+---
 
+# Ejecución del proyecto
+
+## 1. Ejecutar chatbot basado en reglas
+
+```bash
+python -m tests.pruebas_rule_bot
+```
+
+Este script ejecuta múltiples consultas de prueba para validar:
+
+* Detección de intenciones
+* Extracción de entidades
+* Respuestas predefinidas
+* Manejo de fallback
+
+---
+
+## 2. Ejecutar chatbot basado en LLM
+
+```bash
+python -m tests.pruebas_llm_bot
+```
+
+Este script demuestra:
+
+* Gestión de contexto conversacional
+* Preguntas de seguimiento
+* Recuperación de entidades entre turnos
+* Manejo de cierre de conversación
+* Recuperación después de fallback
+
+---
+
+## 3. Ejecutar comparación entre ambos sistemas
+
+```bash
+python -m tests.comparacion_bots
+```
+
+La salida compara:
+
+* Intención detectada
+* Respuesta generada
+* Comportamiento del chatbot basado en reglas
+* Comportamiento del chatbot basado en LLM
+
+---
+
+# Notebook de la actividad
+
+El notebook utilizado para la documentación y evidencia experimental se encuentra en:
+
+```text
+notebooks/actividad3_chatbot.ipynb
+```
+
+Este notebook incluye:
+
+* Definición del problema conversacional
+* Diseño del flujo conversacional
+* Implementación del chatbot basado en reglas
+* Implementación del chatbot con LLM
+* Pruebas experimentales
+* Comparación de resultados
+* Análisis técnico
+* Conclusiones
+
+```
+```
