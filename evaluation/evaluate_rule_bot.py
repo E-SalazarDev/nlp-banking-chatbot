@@ -1,43 +1,56 @@
 import json
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 from rule_bot.chatbot import RuleBasedChatbot
 
-bot = RuleBasedChatbot()
 
-with open(
-    "evaluation/test_cases.json",
-    "r",
-    encoding="utf-8"
-) as f:
-    cases = json.load(f)
+def main():
+    bot = RuleBasedChatbot()
 
-correct = 0
-results = []
+    test_cases_path = PROJECT_ROOT / "evaluation" / "test_cases.json"
 
-for case in cases:
+    with open(test_cases_path, "r", encoding="utf-8") as file:
+        test_cases = json.load(file)
 
-    prediction = bot.get_response(
-        case["text"]
-    )["intent"]
+    correct = 0
+    total = len(test_cases)
 
-    expected = case["expected_intent"]
+    print("=" * 80)
+    print("RULE BOT EVALUATION")
+    print("=" * 80)
 
-    success = prediction == expected
+    for case in test_cases:
+        user_input = case["text"]
+        expected_intent = case["expected_intent"]
 
-    if success:
-        correct += 1
+        result = bot.get_response(user_input)
+        predicted_intent = result["intent"]
 
-    results.append({
-        "input": case["text"],
-        "expected": expected,
-        "predicted": prediction,
-        "success": success
-    })
+        success = predicted_intent == expected_intent
 
-accuracy = correct / len(cases)
+        if success:
+            correct += 1
 
-print("=" * 80)
-print(f"Accuracy: {accuracy:.2%}")
-print("=" * 80)
+        print(f"Input     : {user_input}")
+        print(f"Expected  : {expected_intent}")
+        print(f"Predicted : {predicted_intent}")
+        print(f"Success   : {success}")
+        print("-" * 80)
 
-for r in results:
-    print(r)
+    accuracy = correct / total if total > 0 else 0
+
+    print("=" * 80)
+    print(f"Total cases          : {total}")
+    print(f"Correct predictions  : {correct}")
+    print(f"Intent accuracy      : {accuracy:.2%}")
+    print("=" * 80)
+
+
+if __name__ == "__main__":
+    main()
