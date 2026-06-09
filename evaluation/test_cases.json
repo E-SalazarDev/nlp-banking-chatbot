@@ -1,0 +1,22 @@
+[
+    {
+        "text": "Hola",
+        "expected_intent": "saludo"
+    },
+    {
+        "text": "Dame mi saldo bancario",
+        "expected_intent": "consulta_saldo"
+    },
+    {
+        "text": "Quiero mi estado de cuenta",
+        "expected_intent": "estado_cuenta"
+    },
+    {
+        "text": "Necesito ayuda con mi cuenta",
+        "expected_intent": "soporte"
+    },
+    {
+        "text": "¿Qué tipos de cuenta ofrecen?",
+        "expected_intent": "consulta_general"
+    }
+]
